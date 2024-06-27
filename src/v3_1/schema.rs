@@ -17,13 +17,13 @@ pub struct SchemaObject {
     /// been deprecated in favor of the JSON Schema `examples` keyword. Use
     /// of `example` is discouraged, and later versions of this
     /// specification may remove it.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub example: Option<serde_json::Value>,
 }
 
 #[cfg(feature = "conversions")]
 mod conversions {
     use crate::v3_0;
-    use serde_json::Value as JValue;
     impl From<v3_0::Schema> for super::SchemaObject {
         fn from(s: v3_0::Schema) -> Self {
             let oldval = serde_json::to_value(&s).expect("Convert Schema to serde_json::Value");
